@@ -1,11 +1,8 @@
 <template>
   <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
   <div class="container mx-auto flex">
-    <section class="w-2/3">
+    <section class="sm:4/5 xl:w-3/5 mx-auto">
       <SetPanel />
-    </section>
-    <section class="w-1/3">
-      wowo
     </section>
   </div>
 </template>
