@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="sm:flex sm:flex-wrap px-4 mb-4">
-      <div class="my-auto">
+      <div class="my-auto mb-2 sm:mb-auto">
         <label for="playPoints" class="mr-2">PP</label>
         <select v-model="playPoints" id="playPoints" class="bg-black">
           <option
@@ -22,13 +22,13 @@
           </option>
         </select>
       </div>
-      <p class="px-2 my-auto hidden sm:block">|</p>
-      <div class="ml-2 my-auto">
+      <p class="px-2 my-auto mb-2 sm:mb-auto hidden sm:block">|</p>
+      <div class="ml-2 mb-2 sm:mb-auto my-auto">
         <input type="checkbox" v-model="hasEvoPoint" id="evoPoint">
         <label for="evoPoint" class="ml-2">EP</label>
       </div>
-      <p class="px-2 mr-2 my-auto hidden sm:block">|</p>
-      <RefreshIcon class="text-white h-5 w-5 my-auto cursor-pointer" @click="resetHandCards"/>
+      <p class="px-2 mr-2 my-auto mb-2 sm:mb-auto hidden sm:block">|</p>
+      <RefreshIcon class="text-white h-5 w-5 my-auto mb-2 sm:mb-auto cursor-pointer mx-auto sm:mx-0" @click="resetHandCards"/>
     </div>
   </div>
   <hr class="mt-4 mb-8">
