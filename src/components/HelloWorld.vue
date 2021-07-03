@@ -7,24 +7,28 @@
     </h1>
   </div>
   <div class="flex flex-wrap justify-center select-none">
-    <div v-for="card in cards" :key="card.card_id" class="w-1/3 sm:w-1/4 lg:w-1/12 relative">
+    <div v-for="card in cards" :key="card.card_id" class="w-1/3 sm:w-1/6 lg:w-1/12 relative">
       <img :src="`https://shadowverse-portal.com/image/card/phase2/common/C/C_${card.card_id}.png?202107030316`">
       <div class="count-panel absolute inset-x-0 bottom-4 text-white rounded-lg w-3/4 mx-auto">
         <div class="flex justify-between opacity-100">
           <MinusSmIcon
             :class="{'cursor-pointer': handCard[card.card_id] > 0, 'cursor-not-allowed': handCard[card.card_id] === 0}"
             @click="handCard[card.card_id] > 0 && handleCardMinus(card.card_id)"/>
-          <h6 class="mx-2 font-bold text-xl cursor-default" :class="{'text-yellow-400': handCard[card.card_id] === 3}">
+          <h6 class="mx-2 font-bold text-3xl cursor-default align-middle" :class="{'text-yellow-400': handCard[card.card_id] > 0}">
             {{ handCard[card.card_id] }}
           </h6>
           <PlusIcon
-            :class="{ 'cursor-pointer': handCard[card.card_id] < 3 , 'cursor-not-allowed':  handCard[card.card_id] === 3 || remainHandCardCount === 0}"
-            @click="handCard[card.card_id] < 3 && remainHandCardCount > 0 && handleCardPlus(card.card_id)"/>
+            :class="{'cursor-not-allowed': remainHandCardCount === 0}"
+            class="cursor-pointer"
+            @click="remainHandCardCount > 0 && handleCardPlus(card.card_id)"/>
         </div>
-        
-
       </div>
     </div>
+  </div>
+  <div class="mt-4">
+    <h1>打得出12連擊嗎？</h1>
+    <h1 v-if="isCanPlayedTwelveCard">行！打下去！</h1>
+    <h1 v-else>不行痾</h1>
   </div>
 </template>
 
@@ -40,7 +44,9 @@ export default {
     return {
       cards: cards,
       hasEvoPoint: true,
-      handCard: {}
+      handCard: {},
+      playPoints: 7,
+      playedTarget: 12
     }
   },
   components: {
@@ -62,7 +68,7 @@ export default {
       this.handCard[id]--
     },
     handleCardPlus(id) {
-      if (this.handCard[id] < 3 ) this.handCard[id]++
+      this.handCard[id]++
     }
   },
   computed: {
@@ -72,7 +78,7 @@ export default {
     remainHandCardCount({totalHandCardCount}) {
       return 9 - totalHandCardCount
     },
-    zeroTokenSum() {
+    zeroCostTokenSum() {
       let sum = 0
       let fairyWisp = this.handCard['900111020'] // 妖精螢火
       let youngCat = this.handCard['900131040'] // 年輕又自由的貓
@@ -133,8 +139,41 @@ export default {
         deepwoodWolf -= discount
         sum += discount
       }
-      
+
       return sum
+    },
+    oneCostTokenSum() {
+      let sum = 0
+      this.countOneList.forEach(cardId => { sum += this.handCard[cardId]})
+      this.countTwoList.forEach(cardId => { sum += this.handCard[cardId] * 2})
+      this.countThreeList.forEach(cardId => { sum += this.handCard[cardId] * 3})
+      return sum
+    },
+    countOneList() {
+      return [
+        '900111010', // 妖精
+        '119121010', // 森林遊俠‧維爾達
+        '121134010', // 英雄的覺悟
+        '121141020', // 萬綠的回歸‧拉緹卡
+        '117111030', // 森林之狼
+        '119111040', // 迅風妖精
+        '900134010', // 暹羅的惡作劇
+        '900134020' // 暹瑪的凝視
+      ]
+    },
+    countTwoList() {
+      return [
+        '120141020' // 宿命的狐火‧雪華
+      ]
+    },
+    countThreeList() {
+      return [
+        '118141010', // 優美的貓姊妹‧暹羅與暹瑪
+        '120141030' // 龐然妖花
+      ]
+    },
+    isCanPlayedTwelveCard() {
+      return this.playedTarget - this.playPoints < this.zeroCostTokenSum && this.playPoints < this.oneCostTokenSum
     }
   }
 }
