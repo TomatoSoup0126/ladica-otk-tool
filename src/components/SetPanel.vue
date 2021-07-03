@@ -27,7 +27,6 @@
         <label for="evoPoint" class="ml-2">EP</label>
       </div>
     </div>
-    <!-- <h1>手牌數量：{{ totalHandCardCount }}</h1> -->
   </div>
   <hr class="mt-4 mb-8">
   <div class="flex flex-wrap select-none">
@@ -50,7 +49,7 @@
     </div>
     <div class="flex flex-grow w-16 h-16 text-white my-auto justify-center">
       <CollectionIcon class="w-5 h-5"/>
-      <span class="ml-2">x {{ totalHandCardCount }}</span>
+      <span class="ml-2" :class="{'text-red-500': totalHandCardCount === 9}">x {{ totalHandCardCount }}</span>
     </div>
     <div class="flex flex-grow w-16 h-16 text-white my-auto justify-center">
       <UploadIcon class="w-5 h-5"/>
@@ -61,11 +60,6 @@
       <CheckCircleIcon v-show="isCanPlayedWithTarget" class="w-5 h-5 text-green-500"/>
     </div>
   </div>
-  <!-- <div class="mt-4 text-white">
-    <h1>打得出12連擊嗎？</h1>
-    <h1 v-if="isCanPlayedWithTarget">行！打下去！</h1>
-    <h1 v-else>不行痾</h1>
-  </div> -->
 </template>
 
 
