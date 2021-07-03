@@ -1,6 +1,6 @@
 <template>
   <div class="text-xl mb-6 select-none text-white">
-    <div class="sm:flex sm:flex-wrap px-4 mb-4">
+    <div class="sm:flex sm:flex-wrap mb-4">
       <div class="relative cursor-pointer mb-2 sm:mb-0" @click="setPlayedTarget(11)">
         <CheckCircleIcon v-show="playedTarget === 11" class="check-icon text-white h-5 w-5 absolute inset-y-0 my-auto" />
         <img src="https://shadowverse-portal.com/image/card/phase2/common/L/L_104141020.jpg?202107030308">
@@ -9,7 +9,8 @@
         <CheckCircleIcon v-show="playedTarget === 12" class="check-icon text-white h-5 w-5 absolute inset-y-0 my-auto" />
         <img src="https://shadowverse-portal.com/image/card/phase2/common/L/L_121141020.jpg?202107030308">
       </div>
-      <p class="mx-4 my-auto hidden sm:block">|</p>
+    </div>
+    <div class="sm:flex sm:flex-wrap px-4 mb-4">
       <div class="my-auto">
         <label for="playPoints" class="mr-2">PP</label>
         <select v-model="playPoints" id="playPoints" class="bg-black">
@@ -26,6 +27,8 @@
         <input type="checkbox" v-model="hasEvoPoint" id="evoPoint">
         <label for="evoPoint" class="ml-2">EP</label>
       </div>
+      <p class="px-2 mr-2 my-auto hidden sm:block">|</p>
+      <RefreshIcon class="text-white h-5 w-5 my-auto cursor-pointer" @click="resetHandCards"/>
     </div>
   </div>
   <hr class="mt-4 mb-8">
@@ -66,7 +69,7 @@
 
 <script>
 import { cards } from '../assets/cards.json'
-import { PlusIcon, MinusSmIcon, CheckCircleIcon, CollectionIcon, UploadIcon, XCircleIcon } from '@heroicons/vue/solid'
+import { PlusIcon, MinusSmIcon, CheckCircleIcon, CollectionIcon, UploadIcon, XCircleIcon, RefreshIcon } from '@heroicons/vue/solid'
 
 export default {
   data() {
@@ -84,7 +87,8 @@ export default {
     CheckCircleIcon,
     CollectionIcon,
     UploadIcon,
-    XCircleIcon
+    XCircleIcon,
+    RefreshIcon
   },
   created() {
     this.initHandCard()
@@ -105,6 +109,10 @@ export default {
     },
     setPlayedTarget(target) {
       this.playedTarget = target
+    },
+    resetHandCards() {
+      this.handCard = this.$options.data().handCard
+      this.initHandCard()
     }
   },
   computed: {
