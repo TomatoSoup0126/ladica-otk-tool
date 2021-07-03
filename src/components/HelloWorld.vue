@@ -14,10 +14,12 @@
     Edit
     <code>components/HelloWorld.vue</code> to test hot module replacement.
   </p>
+  <p v-for="card in cards" :key="card.card_id">{{ card.card_name }}</p>
 </template>
 
 <script setup>
 import { defineProps, reactive } from 'vue'
+import { cards } from '../assets/cards.json'
 
 defineProps({
   msg: String
