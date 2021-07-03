@@ -1,5 +1,6 @@
 <template>
   <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
+  <GithubCorner />
   <div class="container mx-auto flex">
     <section class="sm:4/5 xl:w-3/5 mx-auto">
       <SetPanel />
@@ -9,6 +10,7 @@
 
 <script setup>
 import SetPanel from './components/SetPanel.vue'
+import GithubCorner from './components/GithubCorner.vue'
 
 </script>
 
@@ -22,5 +24,11 @@ import SetPanel from './components/SetPanel.vue'
   padding-top: 60px;
   min-height: 100vh;
   background-color: rgba(0,0,0);
+}
+.github-corner {
+  position: absolute;
+  top: 0px;
+  border: 0;
+  right: 0;
 }
 </style>
