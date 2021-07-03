@@ -1,13 +1,37 @@
 <template>
-  <div class="text-xl mb-4 select-none">
-    <h1>手牌數量：{{ totalHandCardCount }}</h1>
-    <h1 class="mt-4">
-      <input type="checkbox" v-model="hasEvoPoint" id="evoPoint">
-      <label for="evoPoint" class="ml-2">尚有進化點</label>
-    </h1>
+  <div class="text-xl mb-6 select-none text-white">
+    <div class="flex px-4 mb-4">
+      <div class="relative cursor-pointer" @click="setPlayedTarget(11)">
+        <CheckCircleIcon v-show="playedTarget === 11" class="check-icon text-white h-5 w-5 absolute inset-y-0 my-auto" />
+        <img src="https://shadowverse-portal.com/image/card/phase2/common/L/L_104141020.jpg?202107030308">
+      </div>
+      <div class="relative cursor-pointer" @click="setPlayedTarget(12)">
+        <CheckCircleIcon v-show="playedTarget === 12" class="check-icon text-white h-5 w-5 absolute inset-y-0 my-auto" />
+        <img src="https://shadowverse-portal.com/image/card/phase2/common/L/L_121141020.jpg?202107030308">
+      </div>
+      <p class="mx-4 my-auto">|</p>
+      <div class="my-auto">
+        <label for="playPoints" class="mr-2">PP</label>
+        <select v-model="playPoints" id="playPoints" class="bg-black">
+          <option
+            v-for="number in 10"
+            :key="`pp_${number}`" 
+            :value="number">
+            {{ number }}
+          </option>
+        </select>
+      </div>
+      <p class="px-2 my-auto">|</p>
+      <div class="ml-2 my-auto">
+        <input type="checkbox" v-model="hasEvoPoint" id="evoPoint">
+        <label for="evoPoint" class="ml-2">EP</label>
+      </div>
+    </div>
+    <!-- <h1>手牌數量：{{ totalHandCardCount }}</h1> -->
   </div>
-  <div class="flex flex-wrap justify-center select-none">
-    <div v-for="card in cards" :key="card.card_id" class="w-1/3 sm:w-1/6 lg:w-1/12 relative">
+  <hr class="mt-4 mb-8">
+  <div class="flex flex-wrap select-none">
+    <div v-for="card in cards" :key="card.card_id" class="w-1/3 sm:w-1/6 relative">
       <img :src="`https://shadowverse-portal.com/image/card/phase2/common/C/C_${card.card_id}.png?202107030316`">
       <div class="count-panel absolute inset-x-0 bottom-4 text-white rounded-lg w-3/4 mx-auto">
         <div class="flex justify-between opacity-100">
@@ -18,26 +42,37 @@
             {{ handCard[card.card_id] }}
           </h6>
           <PlusIcon
-            :class="{'cursor-not-allowed': remainHandCardCount === 0}"
             class="cursor-pointer"
+            :class="{'cursor-not-allowed': remainHandCardCount === 0}"
             @click="remainHandCardCount > 0 && handleCardPlus(card.card_id)"/>
         </div>
       </div>
     </div>
+    <div class="flex flex-grow w-16 h-16 text-white my-auto justify-center">
+      <CollectionIcon class="w-5 h-5"/>
+      <span class="ml-2">x {{ totalHandCardCount }}</span>
+    </div>
+    <div class="flex flex-grow w-16 h-16 text-white my-auto justify-center">
+      <UploadIcon class="w-5 h-5"/>
+      <span class="mx-2">
+        x {{ playedTarget === 12 ? 12 : 8 }}
+      </span>
+      <XCircleIcon v-show="!isCanPlayedWithTarget" class="w-5 h-5 text-red-500"/>
+      <CheckCircleIcon v-show="isCanPlayedWithTarget" class="w-5 h-5 text-green-500"/>
+    </div>
   </div>
-  <div class="mt-4">
+  <!-- <div class="mt-4 text-white">
     <h1>打得出12連擊嗎？</h1>
-    <h1 v-if="isCanPlayedTwelveCard">行！打下去！</h1>
+    <h1 v-if="isCanPlayedWithTarget">行！打下去！</h1>
     <h1 v-else>不行痾</h1>
-  </div>
+  </div> -->
 </template>
 
 
 
 <script>
 import { cards } from '../assets/cards.json'
-import { PlusIcon } from '@heroicons/vue/solid'
-import { MinusSmIcon } from '@heroicons/vue/solid'
+import { PlusIcon, MinusSmIcon, CheckCircleIcon, CollectionIcon, UploadIcon, XCircleIcon } from '@heroicons/vue/solid'
 
 export default {
   data() {
@@ -45,13 +80,17 @@ export default {
       cards: cards,
       hasEvoPoint: true,
       handCard: {},
-      playPoints: 7,
+      playPoints: 6,
       playedTarget: 12
     }
   },
   components: {
     PlusIcon,
-    MinusSmIcon
+    MinusSmIcon,
+    CheckCircleIcon,
+    CollectionIcon,
+    UploadIcon,
+    XCircleIcon
   },
   created() {
     this.initHandCard()
@@ -69,6 +108,9 @@ export default {
     },
     handleCardPlus(id) {
       this.handCard[id]++
+    },
+    setPlayedTarget(target) {
+      this.playedTarget = target
     }
   },
   computed: {
@@ -172,8 +214,14 @@ export default {
         '120141030' // 龐然妖花
       ]
     },
-    isCanPlayedTwelveCard() {
-      return this.playedTarget - this.playPoints < this.zeroCostTokenSum && this.playPoints < this.oneCostTokenSum
+    isCanPlayedWithTarget() {
+      if (this.playedTarget === 12 && this.handCard['121141020'] === 0) return false // 沒拉緹卡
+      if (this.playedTarget === 11 && this.handCard['117134010'] === 0) return false // 沒生命之宴
+      if (this.zeroCostTokenSum === this.playedTarget ) { // 0費牌滿足條件
+        return true
+      }
+
+      return (this.playedTarget - this.playPoints) < this.zeroCostTokenSum && (this.playPoints - this.oneCostTokenSum) < 0
     }
   }
 }
@@ -186,5 +234,8 @@ img {
 }
 .count-panel {
   background-color: rgba(156, 163, 175, 0.7);
+}
+.check-icon {
+  left: 2rem
 }
 </style>

@@ -1,15 +1,18 @@
 <template>
   <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
-  <section class="container mx-auto">
-    <HelloWorld />
-  </section>
+  <div class="container mx-auto flex">
+    <section class="w-2/3">
+      <SetPanel />
+    </section>
+    <section class="w-1/3">
+      wowo
+    </section>
+  </div>
 </template>
 
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import SetPanel from './components/SetPanel.vue'
 
-// This starter template is using Vue 3 experimental <script setup> SFCs
-// Check out https://github.com/vuejs/rfcs/blob/script-setup-2/active-rfcs/0000-script-setup.md
 </script>
 
 <style>
@@ -19,6 +22,8 @@ import HelloWorld from './components/HelloWorld.vue'
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  padding-top: 60px;
+  min-height: 100vh;
+  background-color: rgba(0,0,0);
 }
 </style>
