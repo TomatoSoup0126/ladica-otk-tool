@@ -1,15 +1,15 @@
 <template>
   <div class="text-xl mb-6 select-none text-white">
-    <div class="flex px-4 mb-4">
-      <div class="relative cursor-pointer" @click="setPlayedTarget(11)">
+    <div class="sm:flex sm:flex-wrap px-4 mb-4">
+      <div class="relative cursor-pointer mb-2 sm:mb-0" @click="setPlayedTarget(11)">
         <CheckCircleIcon v-show="playedTarget === 11" class="check-icon text-white h-5 w-5 absolute inset-y-0 my-auto" />
         <img src="https://shadowverse-portal.com/image/card/phase2/common/L/L_104141020.jpg?202107030308">
       </div>
-      <div class="relative cursor-pointer" @click="setPlayedTarget(12)">
+      <div class="relative cursor-pointer mb-2 sm:mb-0" @click="setPlayedTarget(12)">
         <CheckCircleIcon v-show="playedTarget === 12" class="check-icon text-white h-5 w-5 absolute inset-y-0 my-auto" />
         <img src="https://shadowverse-portal.com/image/card/phase2/common/L/L_121141020.jpg?202107030308">
       </div>
-      <p class="mx-4 my-auto">|</p>
+      <p class="mx-4 my-auto hidden sm:block">|</p>
       <div class="my-auto">
         <label for="playPoints" class="mr-2">PP</label>
         <select v-model="playPoints" id="playPoints" class="bg-black">
@@ -21,7 +21,7 @@
           </option>
         </select>
       </div>
-      <p class="px-2 my-auto">|</p>
+      <p class="px-2 my-auto hidden sm:block">|</p>
       <div class="ml-2 my-auto">
         <input type="checkbox" v-model="hasEvoPoint" id="evoPoint">
         <label for="evoPoint" class="ml-2">EP</label>
