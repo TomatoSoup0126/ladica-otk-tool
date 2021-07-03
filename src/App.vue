@@ -1,6 +1,8 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + Vite" />
+  <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
+  <section class="container mx-auto">
+    <HelloWorld />
+  </section>
 </template>
 
 <script setup>
