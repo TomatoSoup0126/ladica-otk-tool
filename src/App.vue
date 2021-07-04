@@ -1,5 +1,4 @@
 <template>
-  <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
   <GithubCorner />
   <div class="container mx-auto flex pb-16">
     <section class="sm:4/5 xl:w-3/5 mx-auto">
