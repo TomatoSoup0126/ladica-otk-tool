@@ -219,10 +219,9 @@ export default {
     isCanPlayedWithTarget() {
       if (this.playedTarget === 12 && this.handCard['121141020'] === 0) return false // 沒拉緹卡
       if (this.playedTarget === 11 && this.handCard['117134010'] === 0) return false // 沒生命之宴
-      if (this.zeroCostTokenSum === this.playedTarget ) { // 0費牌可以直接滿足條件
-        return true
-      }
-      return (this.playedTarget - this.playPoints) <= this.zeroCostTokenSum && this.playPoints <= this.oneCostTokenSum
+      if (this.zeroCostTokenSum === this.playedTarget ) return true // 0費牌可以直接滿足條件
+      if (this.playedTarget === 12) return (this.playedTarget - this.playPoints) <= this.zeroCostTokenSum && this.playPoints <= this.oneCostTokenSum // 拉緹卡12連擊
+      if (this.playedTarget === 11) return (this.playedTarget - this.playPoints) <= this.zeroCostTokenSum && this.playPoints - 3 <= this.oneCostTokenSum // 異種8連擊
     }
   }
 }
