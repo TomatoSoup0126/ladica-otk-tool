@@ -16,13 +16,16 @@
 - 優化計算方式
 - 顯示參考出牌順序
 
+### Version
+- 2020/7/4 工具上線
+- 2020/7/5 優化雙拉緹卡、幻獸使的部分計算邏輯，感謝[巴友們的測試](https://forum.gamer.com.tw/C.php?bsn=29330&snA=20424&subbsn=0&page=1&gothis=420974#420974)
 ### Refence
 - [Shadowverse Card API](https://gist.github.com/theabhishek2511/dfd54989013254324cc4d67f1dbc9f7f)
 - [Shadowverse Portal](https://shadowverse-portal.com/)
 - [GameWith shadowverse wiki ](https://shadowverse.gamewith.jp/)
 
 ### Log
-- 計算法啟發自[GameWith shadowverse wiki - ラティカエルフのローテーションデッキレシピと立ち回り](https://shadowverse.gamewith.jp/article/show/285919)
+- 計算法啟發自[ラティカエルフのローテーションデッキレシピと立ち回り](https://shadowverse.gamewith.jp/article/show/285919)
 - 每次打都會差一點費用，只好自己寫個計算計算看看理論上可不可行
 - 使用Vite、Tailwind CSS、Heroicon
 - 若喜歡這個專案的話歡迎拍打餵食，也歡迎發PR提點指教
