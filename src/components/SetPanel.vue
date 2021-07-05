@@ -128,14 +128,19 @@ export default {
       let youngCat = this.handCard['900131040'] // 年輕又自由的貓
       let windFairy = this.handCard['119111040'] // 迅風妖精
       let deepwoodWolf = this.handCard['117111030'] // 森林之狼
-      let cryptidKeeper = this.handCard['121121020'] // 幻獸保衛者
-
+      let cryptidKeeper = this.handCard['121121020'] > 0 // 幻獸保衛者
 
       sum += this.handCard['900111020'] // 妖精螢火
       sum += this.handCard['900131040'] // 年輕又自由的貓
       sum += this.handCard['900134050'] // 拉緹卡的擁抱
       sum += this.handCard['121134010'] // 英雄的覺悟
-      sum += this.handCard['121141020'] // 萬綠的回歸‧拉緹卡
+
+      if (this.playPoints < 7) { // 小於7只能有單拉緹卡
+        sum += this.handCard['121141020'] > 0 ? 1 : 0
+      }
+      if (this.playPoints >= 7 && this.handCard['121141020'] >= 2) {
+        sum += 2
+      }
 
       if (fairyWisp > 0 && windFairy > 0) { // 妖精螢火組合迅風妖精算2
         const discount = fairyWisp >= windFairy ? windFairy : fairyWisp
@@ -165,23 +170,24 @@ export default {
         sum += discount
       }
 
-      if (cryptidKeeper > 0 && this.hasEvoPoint) { // 幻獸保衛者有進化點或回手才納入計算
-        cryptidKeeper--
+      if (cryptidKeeper && this.hasEvoPoint) { // 有幻獸保衛者又有進化點算1
         sum++
       }
-
-      if (cryptidKeeper > 0 && windFairy > 0) { // 還有回手方法的話幻獸保衛者算1
-        const discount = cryptidKeeper >= windFairy ? windFairy : cryptidKeeper
-        cryptidKeeper -= discount
+      
+      if (cryptidKeeper && windFairy > 0) { // 還有迅風的話幻獸保衛者算2
+        const discount = windFairy
         windFairy -= discount
+        sum += discount * 2
+      }
+
+      if (cryptidKeeper && deepwoodWolf > 0) { // 還有森林之狼的話幻獸保衛者算1
+        const discount = deepwoodWolf
+        deepwoodWolf -= discount
         sum += discount
       }
 
-      if (cryptidKeeper > 0 && deepwoodWolf > 0) { // 還有回手方法的話幻獸保衛者算1
-        const discount = cryptidKeeper >= deepwoodWolf ? deepwoodWolf : cryptidKeeper
-        cryptidKeeper -= discount
-        deepwoodWolf -= discount
-        sum += discount
+      if (windFairy > 0) { // 剩餘的迅風算1
+        sum += windFairy
       }
 
       return sum
@@ -219,9 +225,8 @@ export default {
     isCanPlayedWithTarget() {
       if (this.playedTarget === 12 && this.handCard['121141020'] === 0) return false // 沒拉緹卡
       if (this.playedTarget === 11 && this.handCard['117134010'] === 0) return false // 沒生命之宴
-      if (this.zeroCostTokenSum === this.playedTarget ) return true // 0費牌可以直接滿足條件
-      if (this.playedTarget === 12) return (this.playedTarget - this.playPoints) <= this.zeroCostTokenSum && this.playPoints <= this.oneCostTokenSum // 拉緹卡12連擊
-      if (this.playedTarget === 11) return (this.playedTarget - this.playPoints) <= this.zeroCostTokenSum && this.playPoints - 3 <= this.oneCostTokenSum // 異種8連擊
+      if (this.playedTarget === 12) return (this.playedTarget - this.playPoints) <= this.zeroCostTokenSum && (this.playPoints <= this.oneCostTokenSum || this.playedTarget <= this.oneCostTokenSum + this.zeroCostTokenSum) // 拉緹卡12連擊
+      if (this.playedTarget === 11) return (this.playedTarget - this.playPoints) <= this.zeroCostTokenSum && this.playPoints - 3 === this.oneCostTokenSum // 異種8連擊
     }
   }
 }
